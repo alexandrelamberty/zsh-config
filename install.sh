@@ -3,10 +3,11 @@
 
 PACKAGE=config
 TARGET=$HOME
+DIR="$(dirname "$0")"
 
 printf "ZSH configuration installation\n"
-stow -vSt "$TARGET" $PACKAGE
+stow -d "$DIR" -vDt "$TARGET" $PACKAGE
 rm "$HOME/.zshrc" 
 rm -rf "$HOME/.config/zsh"
-stow -vSt "$TARGET" $PACKAGE
+stow -d "$DIR" -vSt "$TARGET" $PACKAGE
 
