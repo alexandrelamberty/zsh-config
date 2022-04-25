@@ -1,4 +1,4 @@
-# ZSH Configuration
+# ZSH configuration
 
 ## Roadmap
 
