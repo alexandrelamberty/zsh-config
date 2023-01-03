@@ -14,6 +14,7 @@ export ZDOTDIR=$HOME/.config/zsh
 
 ## History
 #HISTFILE="$XDG_DATA_HOME/zsh/history"
+HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
