@@ -13,12 +13,10 @@
 
 Check and run the `install.sh` script.
 
-```bash
-./install.sh
-```
-
 Changing default shell
- 
+
+Logout and login. Voila
+
 ## Structure
 
 ## References

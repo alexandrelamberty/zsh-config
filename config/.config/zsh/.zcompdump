@@ -581,7 +581,6 @@ _comps=(
 'hostnamectl' '_hostnamectl'
 'hotjava' '_webbrowser'
 'htop' '_htop'
-'_hugo' '_hugo'
 'hugo' '_hugo'
 'iceweasel' '_mozilla'
 'icombine' '_ispell'
