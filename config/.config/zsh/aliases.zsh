@@ -1,4 +1,6 @@
 #!/bin/sh
+alias google-chrome='google-chrome-stable'
+alias chrome='google-chrome'
 
 # IKBS ------------------------------------------------------------------------
 
@@ -42,12 +44,15 @@ alias pmirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pa
 # For when keys break
 alias p-fix-keys="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys"
 
-# Tmux -------------------------------------------------------------------------
 
-# Tmux attach session
-alias tas='tmux attach-session -t $(tmux ls | sed -E "s/:.*$//" | fzf --reverse --height 40%)'
-# Tmux kill Session
-alias tks='tmux kill-session -t $(tmux ls | sed -E "s/:.*$//" | fzf --reverse --height 40%)'
+# Rpi-Imager -------------------------------------------------------------------------
+
+alias rpi-imager="sudo rpi-imager"
+
+# Tmux -------------------------------------------------------------------------
+# See the function.zsh for more Tmux helpers
+# Create a new named session
+alias tmcs='tmux new -s $1'
 
 # Zsh --------------------------------------------------------------------------
 
@@ -90,19 +95,18 @@ alias stle="systemctl list-unit-files --state=enabled"
 alias gcm="git checkout master"
 alias gup="git add . && git commit -m 'up' && git push"
 
+# Stow -------------------------------------------------------------------------
+
 # Stow the passed package name
 stowth() {
-	stow -vSt ~ $1
+    stow -vSt ~ $1
 }
 
 # Unstow the passed package name
 unstow() {
-	stow -vDt ~ $1
+    stow -vDt ~ $1
 }
 
 # Users
 alias users="cat /etc/passwd | awk -F: '{print $1 "," $2}' | column -s, -t | fzf"
-
-# Wifi
-alias whome="nmcli dev wifi connect WiFi-2.4-62E0 password c6RC9zk3aR2P "
 
