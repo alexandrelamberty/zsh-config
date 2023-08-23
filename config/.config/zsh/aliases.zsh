@@ -94,6 +94,11 @@ alias stle="systemctl list-unit-files --state=enabled"
 
 alias gcm="git checkout master"
 alias gup="git add . && git commit -m 'up' && git push"
+gsb() {
+  BR="$(git branch | fzf )"
+  CBR="${BR:2}"
+  git checkout $CBR
+}
 
 # Stow -------------------------------------------------------------------------
 
