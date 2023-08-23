@@ -3,9 +3,9 @@
 ## Roadmap
 
 - [ ] Fix Stow exclude plugins folder
-- [ ] Add plugin manager 
+- [ ] Add plugin manager
 - [ ] Completion, fzf ? share with neovim ?
-- [ ] Erros prompt sourcing .zshenv vs manual sourcing of exports 
+- [ ] Errors prompt sourcing .zshenv vs manual sourcing of exports
 
 ## Features
 
@@ -18,6 +18,8 @@ Changing default shell
 Logout and login. Voila
 
 ## Structure
+
+Zsh need its starting file in the home folder.
 
 ## References
 
