@@ -19,6 +19,8 @@ Logout and login. Voila!
 
 ## Structure
 
+Zsh need its starting file in the home folder.
+
 ## References
 
 - <https://zsh.sourceforge.io/Doc/>

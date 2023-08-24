@@ -1,4 +1,6 @@
 #!/bin/sh
+# ZSH Vim mode
+# ~/.config/zsh/vim-mode.zsh
 bindkey -v
 export KEYTIMEOUT=1
 
@@ -14,14 +16,14 @@ cursor_beam_blink='\e[6 q'
 # Exectued every time a keymap changes.
 function zle-keymap-select () {
     case $KEYMAP in
-				# Change the 
+        # Change the
         vicmd) echo -ne '\e[2 q';;      # block
         viins|main) echo -ne '\e[6 q';; # beam
     esac
 }
 zle -N zle-keymap-select
 
-# Execute every time the linde editor is started. 
+# Execute every time the linde editor is started.
 zle-line-init() {
     zle -K viins # Change the zle keymap to `vi insert` mode
     echo -ne "\e[6 q"
