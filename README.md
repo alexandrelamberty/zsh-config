@@ -3,9 +3,9 @@
 ## Roadmap
 
 - [ ] Fix Stow exclude plugins folder
-- [ ] Add plugin manager 
+- [ ] Add plugin manager
 - [ ] Completion, fzf ? share with neovim ?
-- [ ] Erros prompt sourcing .zshenv vs manual sourcing of exports 
+- [ ] Erros prompt sourcing .zshenv vs manual sourcing of exports
 
 ## Features
 
@@ -15,7 +15,7 @@ Check and run the `install.sh` script.
 
 Changing default shell
 
-Logout and login. Voila
+Logout and login. Voila!
 
 ## Structure
 
