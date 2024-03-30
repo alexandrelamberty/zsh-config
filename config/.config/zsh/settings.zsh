@@ -7,6 +7,15 @@ setopt autocd extendedglob nomatch menucomplete
 setopt interactive_comments
 unsetopt BEEP
 
+# autoload -Uz compinit
+# FIXME: No improvement
+# https://gist.github.com/ctechols/ca1035271ad134841284
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit;
+else
+	compinit -C;
+fi;
+
 # Colors
 autoload -Uz colors && colors
 
@@ -16,18 +25,4 @@ if [ -f ~/.dir_colors ]; then
 elif [ -f /etc/DIR_COLORS ]; then
 	eval "$(dircolors -b /etc/DIR_COLORS)"
 fi
-
-# NVM
-# TODO: Check configuration this!!!
-# This loads nvm
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-# FIXME: Doe not this need to be ZSH This loads nvm bash_completion
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
-
-# Terminal title
-case $TERM in
-    xterm*)
-        precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-        ;;
-esac
 

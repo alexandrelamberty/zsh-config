@@ -1,21 +1,13 @@
 #!/bin/sh
-alias google-chrome='google-chrome-stable'
+# ZSH Aliases
+
+# Apps
+alias arduino="~/downloads/arduino-ide_2.2.1_Linux_64bit.AppImage"
+alias browser=chrome
 alias chrome='google-chrome'
-
-# IKBS ------------------------------------------------------------------------
-
-alias logs='nvim $HOME/logs/README.md'
-alias ideas='nvim ./ideas/README.md'
-alias topics='nvim ./topics/README.md'
-alias todos='nvim ./todos/README.md'
-
-# Software configurations
-
-alias i3rc='nvim ~/.config/i3/'
-alias nvimrc='nvim ~/.config/nvim/'
-alias polybarrc='nvim ~/.config/polybar/'
-alias tmuxrc='nvim ~/.tmux.conf'
-alias zshrc='nvim ~/.config/zsh/'
+alias google-chrome='google-chrome-stable'
+alias postman="~/downloads/Postman/Postman"
+alias rpi-imager="sudo rpi-imager"
 
 # Dmenu -----------------------------------------------------------------------
 
@@ -30,36 +22,52 @@ alias drac='docker rm $(docker ps -a -q)'
 # Docker Remove All Images
 alias drai='docker kill $(docker ps -q)'
 
+# Git -------------------------------------------------------------------------
+# git status
+alias gs="git status"
+# git add
+alias ga="git add "
+# git commit
+alias gc="git commit"
+# checkout master 
+alias gcm="git checkout master"
+# fast add, commit and push
+alias gup="git add . && git commit -m 'up' && git push"
+# switch branch
+alias gsb="git-switch-branch"
+# open remote repository
+alias gor="git-open-remote"
+# clone repository
+alias gcr="git-clone"
+# clone personal repo
+alias gcpr="git-clone-personal"
+
+# NPM -------------------------------------------------------------------------
+
+alias ni="pnpm install"
+alias nr="pnpm run"
+alias ne="npm-execute-script"
+
 # Nvim -------------------------------------------------------------------------
 
 alias nv='nvim .'
 
-# Pacman ----------------------------------------------------------------------
-
-alias pu="sudo pacman -Syu"
-alias pmirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-alias pmirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
-alias pmirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
-alias pmirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
-# For when keys break
-alias p-fix-keys="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys"
-
-
-# Rpi-Imager -------------------------------------------------------------------------
-
-alias rpi-imager="sudo rpi-imager"
-
 # Tmux -------------------------------------------------------------------------
-# See the function.zsh for more Tmux helpers
-# Create a new named session
+
+# Create a new session
 alias tmcs='tmux new -s $1'
+# Attach to an existing session
+alias tmas='tmux-attach-session'
+# Kill a session
+alias tmks='tmux-kill-session'
+# Create a Git based session
+alias tmgs='tmux-git-session'
 
-# Zsh --------------------------------------------------------------------------
+# System ----------------------------------------------------------------------
 
-alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e \
-'{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
-
-# File system -----------------------------------------------------------------
+alias bye="sudo shutdown -h now"
+alias df='df -h'
+alias free='free -m'
 alias log='sudo tail -f'
 alias ls='ls --color=tty --group-directories-first'
 alias ll='ls -1 --group-directories-first'
@@ -71,47 +79,4 @@ alias grepe='egrep --color=auto'
 alias grepf='fgrep --color=auto'
 alias mv='mv -i'
 alias rm='rm -i'
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# Disks ----------------------------------------------------------------------
-
-alias df='df -h'     # human-readable sizes
-alias free='free -m' # show sizes in MB
-
-# Processes -------------------------------------------------------------------
-
-# get top process eating memory
-alias psmem='ps auxf | sort -nr -k 4 | head -5'
-
-# get top process eating cpu ##
-alias pscpu='ps auxf | sort -nr -k 3 | head -5'
-
-# systemd
-alias stle="systemctl list-unit-files --state=enabled"
-
-# Git -------------------------------------------------------------------------
-
-alias gcm="git checkout master"
-alias gup="git add . && git commit -m 'up' && git push"
-gsb() {
-  BR="$(git branch | fzf )"
-  CBR="${BR:2}"
-  git checkout $CBR
-}
-
-# Stow -------------------------------------------------------------------------
-
-# Stow the passed package name
-stowth() {
-    stow -vSt ~ $1
-}
-
-# Unstow the passed package name
-unstow() {
-    stow -vDt ~ $1
-}
-
-# Users
-alias users="cat /etc/passwd | awk -F: '{print $1 "," $2}' | column -s, -t | fzf"
 

@@ -1,3 +1,5 @@
 # Git ignore file
 
 plugins/
+.zsh_history
+.zcompdump*

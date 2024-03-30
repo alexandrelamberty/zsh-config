@@ -23,7 +23,7 @@ function zle-keymap-select () {
 }
 zle -N zle-keymap-select
 
-# Execute every time the linde editor is started.
+# Execute every time the line editor is started.
 zle-line-init() {
     zle -K viins # Change the zle keymap to `vi insert` mode
     echo -ne "\e[6 q"

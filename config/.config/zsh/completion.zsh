@@ -10,10 +10,18 @@
 # +---------+
 
 # Load more completions
-fpath=($DOTFILES/zsh/plugins/zsh-completions/src $fpath)
+fpath=($ZDOTDIR/plugins/zsh-completions/src $fpath)
+fpath=($ZDOTDIR/completions $fpath)
+
 
 # Should be called before compinit
 zmodload zsh/complist
+autoload -U compinit 
+compinit
+_comp_options+=(globdots) # With hidden files
+# Only work with the Zsh function vman
+# See $DOTFILES/zsh/scripts.zsh
+# compdef vman="man"
 
 # Use hjlk in menu selection (during completion)
 # Doesn't work well with interactive mode
@@ -35,13 +43,6 @@ bindkey -M menuselect '^xh' accept-and-hold                # Hold
 bindkey -M menuselect '^xn' accept-and-infer-next-history  # Next
 bindkey -M menuselect '^xu' undo                           # Undo
 
-autoload -U compinit; compinit
-_comp_options+=(globdots) # With hidden files
-
-# Only work with the Zsh function vman
-# See $DOTFILES/zsh/scripts.zsh
-# compdef vman="man"
-
 # +---------+
 # | Options |
 # +---------+
@@ -59,6 +60,7 @@ setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 # :completion:<function>:<completer>:<command>:<argument>:<tag>
 
 # Define completers
+zstyle ':completion:*' menu select
 zstyle ':completion:*'  completer _files _extensions _complete _approximate
 zstyle ':completion:*:*'  completer _files _extensions _complete _approximate
 # Use cache for commands using cache
@@ -72,7 +74,6 @@ bindkey '^Xa' alias-expension
 zstyle ':completion:alias-expension:*' completer _expand_alias
 # Use cache for commands which use it
 # Allow you to select in a menu
-# zstyle ':completion:*' menu select
 # Autocomplete options for cd instead of directory stack
 zstyle ':completion:*' complete-options true
 zstyle ':completion:*' file-sort modification
@@ -81,7 +82,7 @@ zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!
 zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
 zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
-# zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 # Colors for files and directory
 zstyle ':completion:*:*:*:*:default' list-colors ${(s.:.)LS_COLORS}
 
@@ -117,5 +118,4 @@ zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
-# export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
 
