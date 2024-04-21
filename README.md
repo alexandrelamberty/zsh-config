@@ -61,7 +61,6 @@ Stow.
 For more information about Zsh and related resources, you can refer to:
 
 - [Zsh Documentation](https://zsh.sourceforge.io/Doc/)
-- [Notes on Zsh by Alexandre Lamberty](https://notes.alexandrelamberty.com/zsh)
 
 Feel free to explore, customize, and contribute to this Zsh configuration! If
 you encounter any issues or have suggestions for improvement, please open an
