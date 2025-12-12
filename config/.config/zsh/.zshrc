@@ -1,10 +1,9 @@
 #!/usr/bin/env zsh
 # ~/.config/zsh/.zshrc
 # ZSH Main Configuration File
-# Author: Alexandre Lamberty <mail@alexandrelamberty.com>
 
-# Source functions TODO: Replace with a package manager ?
-source "$ZDOTDIR/functions.zsh"
+# Source functions 
+source "$ZDOTDIR/utils.zsh"
 
 # Load configuration files
 zsh_add_file "completion.zsh"

@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 # ~/.zprofile
 # Zsh Login Shell Configuration
-# Author: Alexandre Lamberty <mail@alexanrelamberty.com>
 
 # SSH Keyring
 if [ -n "$DESKTOP_SESSION" ]; then
