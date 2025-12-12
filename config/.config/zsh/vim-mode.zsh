@@ -1,6 +1,6 @@
-#!/bin/sh
-# ZSH Vim mode
+# shellcheck shell=zsh
 # ~/.config/zsh/vim-mode.zsh
+# ZSH Vim mode
 bindkey -v
 export KEYTIMEOUT=1
 

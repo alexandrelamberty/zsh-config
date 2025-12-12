@@ -1,24 +1,30 @@
-# ____ ___  __  __ ____  _     _____ _____ ___ ___  _   _
-#  / ___/ _ \|  \/  |  _ \| |   | ____|_   _|_ _/ _ \| \ | |
-# | |  | | | | |\/| | |_) | |   |  _|   | |  | | | | |  \| |
-# | |__| |_| | |  | |  __/| |___| |___  | |  | | |_| | |\  |
-#  \____\___/|_|  |_|_|   |_____|_____| |_| |___\___/|_| \_|
-#
+# shellcheck shell=zsh
+# ~/.config/zsh/completion.zsh
+# ZSH Completions
 
-# +---------+
-# | General |
-# +---------+
+: "${ZDOTDIR:=$HOME/.config/zsh}"
 
-# Load more completions
-fpath=($ZDOTDIR/plugins/zsh-completions/src $fpath)
-fpath=($ZDOTDIR/completions $fpath)
-
-
-# Should be called before compinit
 zmodload zsh/complist
-autoload -U compinit 
-compinit
-_comp_options+=(globdots) # With hidden files
+
+# Faster and stable completion cache
+ZSH_DISABLE_COMPFIX=true
+
+# Deduplicate custom completion directories
+typeset -gU fpath
+[[ -d "$ZDOTDIR/plugins/zsh-completions/src" ]] && fpath=("$ZDOTDIR/plugins/zsh-completions/src" $fpath)
+[[ -d "$ZDOTDIR/completions" ]] && fpath=("$ZDOTDIR/completions" $fpath)
+
+autoload -Uz compinit
+
+ZCOMP_CACHEDIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+mkdir -p "$ZCOMP_CACHEDIR"
+ZCOMP_DUMP="$ZCOMP_CACHEDIR/.zcompdump"
+compinit -d "$ZCOMP_DUMP"
+
+# Compile for faster startup
+[[ -f "$ZCOMP_DUMP" ]] && zcompile "$ZCOMP_DUMP"
+
+_comp_options+=(globdots) # Include hidden files
 # Only work with the Zsh function vman
 # See $DOTFILES/zsh/scripts.zsh
 # compdef vman="man"
@@ -27,14 +33,14 @@ _comp_options+=(globdots) # With hidden files
 # Doesn't work well with interactive mode
 # Use vim keys in tab complete menu:
 bindkey -M menuselect '^h' vi-backward-char
+bindkey -M menuselect '^j' vi-down-line-or-history
 bindkey -M menuselect '^k' vi-up-line-or-history
 bindkey -M menuselect '^l' vi-forward-char
-bindkey -M menuselect '^j' vi-down-line-or-history
 
 bindkey -M menuselect '^[[Z' vi-up-line-or-history
 bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 
 bindkey -M menuselect '^xg' clear-screen
@@ -102,7 +108,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 
 zstyle ':completion:*' keep-prefix true
 
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+#zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 ## For kubernetes
 # source $DOTFILES/zsh/plugins/kubectl-completion/_kubectl
@@ -117,5 +123,4 @@ zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-[ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
-
+[ -f "$ZDOTDIR/completions/_fnm" ] && fpath=("$ZDOTDIR/completions" $fpath)

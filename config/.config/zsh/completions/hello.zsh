@@ -1,8 +1,9 @@
 
+# shellcheck shell=zsh
 #compdef hello
 
 function _hello {
-    local line
+    local -a line
 
     _arguments -C \
         "-h[use 'loudly' or 'quietly' options]" \
@@ -28,5 +29,5 @@ function _hello_quietly {
 
 function _hello_loudly {
     _arguments \
-        "--repeat=[Repat the <message> any number of times]"
+        "--repeat=[Repeat the <message> any number of times]"
 }

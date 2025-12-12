@@ -1,5 +1,13 @@
 # Git ignore file
 
-plugins/
+# Local plug-ins cloned for convenience but not meant to be tracked
+config/.config/zsh/plugins/
+
+# zsh runtime files generated in the repo or when testing locally
 .zsh_history
 .zcompdump*
+*.zwc
+
+# macOS / editor debris
+.DS_Store
+*~

@@ -1,6 +1,7 @@
 # Stow ignore file
 
-plugins/
+# Skip vendored plug-ins; they are managed separately
+^\.config/zsh/plugins(/|$)
 
 RCS
 .+,v
