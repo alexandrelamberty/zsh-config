@@ -1,4 +1,4 @@
-#!/bin/sh
+# shellcheck shell=zsh
 # ~/.config/zsh/vim-mode.zsh
 # ZSH Vim mode
 bindkey -v

@@ -1,37 +1,69 @@
-#!/bin/sh
+# shellcheck shell=zsh
 # ~/.config/zsh/functions.zsh
 # ZSH Functions
+
+: "${ZDOTDIR:=$HOME/.config/zsh}"
+ZSH_PLUGIN_DIR="$ZDOTDIR/plugins"
+mkdir -p "$ZSH_PLUGIN_DIR"
 
 # Sourcing files --------------------------------------------------------------
 
 # Source files if they exist
-function zsh_add_file() {
-    [ -f "$ZDOTDIR/$1" ] && source "$ZDOTDIR/$1"
+zsh_add_file() {
+    local file="$ZDOTDIR/$1"
+    [[ -f "$file" ]] && source "$file"
 }
 
-function zsh_add_plugin() {
-    PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
-    if [ -d "$ZDOTDIR/plugins/$PLUGIN_NAME" ]; then
-        # For plugins
-        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
-        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.zsh"
-    else
-        git clone "https://github.com/$1.git" "$ZDOTDIR/plugins/$PLUGIN_NAME"
+_zsh_clone_plugin() {
+    local repo="$1"
+    local destination="$2"
+
+    [[ -d "$destination" ]] && return 0
+    if ! command -v git >/dev/null 2>&1; then
+        printf 'git command is required to clone %s\n' "$repo" >&2
+        return 1
+    fi
+
+    git clone --depth=1 "https://github.com/$repo.git" "$destination"
+}
+
+zsh_add_plugin() {
+    local repo="$1"
+    local plugin_name="${repo##*/}"
+    local plugin_dir="$ZSH_PLUGIN_DIR/$plugin_name"
+
+    _zsh_clone_plugin "$repo" "$plugin_dir" || return
+
+    local loaded=false
+    for candidate in "$plugin_dir"/*.plugin.zsh "$plugin_dir"/*.zsh; do
+        if [[ -f "$candidate" ]]; then
+            source "$candidate"
+            loaded=true
+            break
+        fi
+    done
+
+    if [[ $loaded == false ]]; then
+        printf 'No loadable entry point found for %s\n' "$plugin_name" >&2
     fi
 }
 
-function zsh_add_completion() {
-    PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
-    if [ -d "$ZDOTDIR/plugins/$PLUGIN_NAME" ]; then
-        # For completions
-        completion_file_path=$(ls $ZDOTDIR/plugins/$PLUGIN_NAME/src)
-        fpath+="$(dirname "${completion_file_path}")"
-        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh"
-    else
-        git clone "https://github.com/$1.git" "$ZDOTDIR/plugins/$PLUGIN_NAME"
-        fpath+=$(ls $ZDOTDIR/plugins/$PLUGIN_NAME/_*)
-        [ -f $ZDOTDIR/.zccompdump ] && $ZDOTDIR/.zccompdump
+zsh_add_completion() {
+    local repo="$1"
+    local run_compinit="${2:-false}"
+    local plugin_name="${repo##*/}"
+    local plugin_dir="$ZSH_PLUGIN_DIR/$plugin_name"
+
+    _zsh_clone_plugin "$repo" "$plugin_dir" || return
+    typeset -gU fpath
+
+    [[ -d "$plugin_dir/src" ]] && fpath=("$plugin_dir/src" $fpath)
+    fpath=("$plugin_dir" $fpath)
+
+    zsh_add_file "plugins/$plugin_name/$plugin_name.plugin.zsh"
+
+    if [[ $run_compinit == true ]]; then
+        autoload -Uz compinit
+        compinit -i
     fi
-    completion_file="$(basename "${completion_file_path}")"
-    if [ "$2" = true ] && compinit "${completion_file:1}"
 }

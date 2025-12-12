@@ -1,4 +1,4 @@
-#!/bin/sh
+# shellcheck shell=zsh
 # ~/.config/zsh/prompt.zsh
 # Clean ZSH prompt using vcs_info, with icons preserved.
 
@@ -39,4 +39,3 @@ PROMPT+="%{$fg[cyan]%}%~" # Current directory
 PROMPT+="\$vcs_info_msg_0_ " # Git info (icons included)
 PROMPT+="%{$reset_color%}"
 PROMPT+="%(?.%{$fg[yellow]%}$ .%{$fg[red]%}$  )" # Colored prompt symbol depending on exit status
-

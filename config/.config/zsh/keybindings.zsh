@@ -1,13 +1,15 @@
-#!/usr/bin/env zsh
+# shellcheck shell=zsh
 # ~/.config/zsh/keybindings.zsh
 # ZSH Keybindings
 
 # Applications
-bindkey -s '^f' 'ranger^M'
-bindkey -s '^h' 'ranger^M'
+if command -v ranger >/dev/null 2>&1; then
+    bindkey -s '^f' 'ranger^M'
+    bindkey -s '^h' 'ranger^M'
+fi
 
 # History search
-# Fzf provide a keybinding with ´Ctrl+r´ for the zsh history 
+# Fzf already provides a keybinding with 'Ctrl+r' for the zsh history
 
 # Load the functions
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search

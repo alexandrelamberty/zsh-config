@@ -1,23 +1,30 @@
-#!/bin/bash
+# shellcheck shell=zsh
 # ~/.config/zsh/completion.zsh
 # ZSH Completions
+
+: "${ZDOTDIR:=$HOME/.config/zsh}"
 
 zmodload zsh/complist
 
 # Faster and stable completion cache
 ZSH_DISABLE_COMPFIX=true
 
+# Deduplicate custom completion directories
+typeset -gU fpath
+[[ -d "$ZDOTDIR/plugins/zsh-completions/src" ]] && fpath=("$ZDOTDIR/plugins/zsh-completions/src" $fpath)
+[[ -d "$ZDOTDIR/completions" ]] && fpath=("$ZDOTDIR/completions" $fpath)
+
 autoload -Uz compinit
-compinit -d ~/.zcompdump
+
+ZCOMP_CACHEDIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+mkdir -p "$ZCOMP_CACHEDIR"
+ZCOMP_DUMP="$ZCOMP_CACHEDIR/.zcompdump"
+compinit -d "$ZCOMP_DUMP"
 
 # Compile for faster startup
-[[ -f ~/.zcompdump ]] && zcompile ~/.zcompdump
+[[ -f "$ZCOMP_DUMP" ]] && zcompile "$ZCOMP_DUMP"
 
-# Load more completions
-fpath=($ZDOTDIR/plugins/zsh-completions/src $fpath)
-fpath=($ZDOTDIR/completions $fpath)
-
-_comp_options+=(globdots) # With hidden files
+_comp_options+=(globdots) # Include hidden files
 # Only work with the Zsh function vman
 # See $DOTFILES/zsh/scripts.zsh
 # compdef vman="man"
@@ -116,5 +123,4 @@ zstyle ':completion:*' keep-prefix true
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-[ -f $ZDOTDIR/completion/_fnm ] && fpath+="$ZDOTDIR/completion/"
-
+[ -f "$ZDOTDIR/completions/_fnm" ] && fpath=("$ZDOTDIR/completions" $fpath)

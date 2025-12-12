@@ -3,9 +3,7 @@
 ## Roadmap
 
 - [ ] Fix Stow exclude plugins folder
-- [ ] Add plugin manager
 - [ ] Completion, fzf ? share with neovim ?
-- [ ] Erros prompt sourcing .zshenv vs manual sourcing of exports
 
 ## Features
 
@@ -13,16 +11,17 @@
 - Aliases
 - Syntax highlighting
 - Autosuggestions
-- Custom functions
 
 ## Installation
 
 To install the Zsh configuration, run the `install.sh` script located in this directory:
 
 ```bash
-./install.sh
+./install.sh            # standard install
+./install.sh --dry-run  # preview the changes without touching your $HOME
 ```
-This script will back up any existing `.zshrc` file and `.config/zsh` directory in your home directory, remove them, and then create new symbolic links to the configuration files in this directory.
+
+This script safely removes the previous install (if present), cleans up legacy files, and then stows the current configuration. Use `--quiet` to silence verbose stow output.
 
 ## Structure
 

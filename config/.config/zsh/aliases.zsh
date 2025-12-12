@@ -1,21 +1,55 @@
-#!/bin/sh
+# shellcheck shell=zsh
 # ~/.config/zsh/aliases.zsh
 # ZSH Aliases
 
 # Dmenu -----------------------------------------------------------------------
 
-# Docker Kill All Containers
-alias dkac='docker kill $(docker ps -q)'
-# Docker Remove All Containers
-alias drac='docker rm $(docker ps -a -q)'
-# Docker Remove All Images
-alias drai='docker kill $(docker ps -q)'
+# Docker Kill/Remove Helpers
+_docker_available() {
+    if ! command -v docker >/dev/null 2>&1; then
+        printf 'docker command not found.\n' >&2
+        return 1
+    fi
+}
+
+dkac() {
+    _docker_available || return 1
+    local -a ids
+    ids=("${(@f)$(docker ps -q 2>/dev/null)}")
+    if (( ${#ids[@]} == 0 )); then
+        printf 'No running containers.\n'
+        return 0
+    fi
+    docker kill "${ids[@]}"
+}
+
+drac() {
+    _docker_available || return 1
+    local -a ids
+    ids=("${(@f)$(docker ps -aq 2>/dev/null)}")
+    if (( ${#ids[@]} == 0 )); then
+        printf 'No containers to remove.\n'
+        return 0
+    fi
+    docker rm "${ids[@]}"
+}
+
+drai() {
+    _docker_available || return 1
+    local -a images
+    images=("${(@f)$(docker images -q 2>/dev/null)}")
+    if (( ${#images[@]} == 0 )); then
+        printf 'No images to remove.\n'
+        return 0
+    fi
+    docker rmi "${images[@]}"
+}
 
 # Git -------------------------------------------------------------------------
 # git status
 alias gs="git status"
 # git add
-alias ga="git add "
+alias ga="git add"
 # git commit
 alias gc="git commit"
 # checkout master 
@@ -43,7 +77,10 @@ alias nv='nvim .'
 
 # Tmux -------------------------------------------------------------------------
 
-alias tmcs='tmux new -s $1'       # Create a new session
+tmcs() {
+    local session="${1:-main}"
+    tmux new -s "$session"
+}
 alias tmas='tmux-attach-session'  # Attach to an existing session 
 alias tmks='tmux-kill-session'    # Kill a session
 alias tmgs='tmux-git-session'     # Create a Git based session
@@ -64,4 +101,3 @@ alias grepe='egrep --color=auto'
 alias grepf='fgrep --color=auto'
 alias mv='mv -i'
 alias rm='rm -i'
-

@@ -1,15 +1,22 @@
-#!/bin/bash
+# shellcheck shell=zsh
 # ~/.config/zsh/settings.zsh
 # Zsh Settings
 
-setopt appendhistory
-setopt autocd extendedglob nomatch menucomplete
-setopt interactive_comments
-unsetopt BEEP
+setopt appendhistory \
+       sharehistory \
+       hist_ignore_dups \
+       hist_ignore_space \
+       autocd \
+       extendedglob \
+       nomatch \
+       menucomplete \
+       interactive_comments
+unsetopt beep
 
 ## History
-#HISTFILE="$XDG_DATA_HOME/zsh/history"
-HISTFILE=~/.zsh_history
+HIST_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
+mkdir -p "$HIST_DIR"
+HISTFILE="$HIST_DIR/history"
 HISTSIZE=1000000
 SAVEHIST=1000000
 
@@ -22,4 +29,3 @@ if [ -f ~/.dir_colors ]; then
 elif [ -f /etc/DIR_COLORS ]; then
 	eval "$(dircolors -b /etc/DIR_COLORS)"
 fi
-
