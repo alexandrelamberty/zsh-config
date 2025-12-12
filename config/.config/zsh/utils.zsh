@@ -1,4 +1,5 @@
 #!/bin/sh
+# ~/.config/zsh/functions.zsh
 # ZSH Functions
 
 # Sourcing files --------------------------------------------------------------
