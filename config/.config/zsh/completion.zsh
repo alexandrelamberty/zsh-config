@@ -1,4 +1,6 @@
 #!/bin/bash
+# ~/.config/zsh/completion.zsh
+# ZSH Completions
 
 zmodload zsh/complist
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # ~/.config/zsh/keybindings.zsh
 # ZSH Keybindings
 
