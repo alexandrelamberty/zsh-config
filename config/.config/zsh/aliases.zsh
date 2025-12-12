@@ -1,19 +1,7 @@
 #!/bin/sh
 # ZSH Aliases
 
-# Apps
-alias arduino="~/downloads/arduino-ide_2.2.1_Linux_64bit.AppImage"
-alias browser=chrome
-alias chrome='google-chrome'
-alias google-chrome='google-chrome-stable'
-alias postman="~/downloads/Postman/Postman"
-alias rpi-imager="sudo rpi-imager"
-
 # Dmenu -----------------------------------------------------------------------
-
-alias dmenu="dmenu -l 10 -fn Terminus:pixelsize=12 -h 26 -nb '#090B10'  -nf '#9899a0' -sb '#090B10' -sf '#fabd2f'"
-
-# Docker ----------------------------------------------------------------------
 
 # Docker Kill All Containers
 alias dkac='docker kill $(docker ps -q)'
@@ -54,14 +42,10 @@ alias nv='nvim .'
 
 # Tmux -------------------------------------------------------------------------
 
-# Create a new session
-alias tmcs='tmux new -s $1'
-# Attach to an existing session
-alias tmas='tmux-attach-session'
-# Kill a session
-alias tmks='tmux-kill-session'
-# Create a Git based session
-alias tmgs='tmux-git-session'
+alias tmcs='tmux new -s $1'       # Create a new session
+alias tmas='tmux-attach-session'  # Attach to an existing session 
+alias tmks='tmux-kill-session'    # Kill a session
+alias tmgs='tmux-git-session'     # Create a Git based session
 
 # System ----------------------------------------------------------------------
 
