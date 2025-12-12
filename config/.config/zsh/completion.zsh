@@ -1,23 +1,20 @@
-# ____ ___  __  __ ____  _     _____ _____ ___ ___  _   _
-#  / ___/ _ \|  \/  |  _ \| |   | ____|_   _|_ _/ _ \| \ | |
-# | |  | | | | |\/| | |_) | |   |  _|   | |  | | | | |  \| |
-# | |__| |_| | |  | |  __/| |___| |___  | |  | | |_| | |\  |
-#  \____\___/|_|  |_|_|   |_____|_____| |_| |___\___/|_| \_|
-#
+#!/bin/bash
 
-# +---------+
-# | General |
-# +---------+
+zmodload zsh/complist
+
+# Faster and stable completion cache
+ZSH_DISABLE_COMPFIX=true
+
+autoload -Uz compinit
+compinit -d ~/.zcompdump
+
+# Compile for faster startup
+[[ -f ~/.zcompdump ]] && zcompile ~/.zcompdump
 
 # Load more completions
 fpath=($ZDOTDIR/plugins/zsh-completions/src $fpath)
 fpath=($ZDOTDIR/completions $fpath)
 
-
-# Should be called before compinit
-zmodload zsh/complist
-autoload -U compinit 
-compinit
 _comp_options+=(globdots) # With hidden files
 # Only work with the Zsh function vman
 # See $DOTFILES/zsh/scripts.zsh
@@ -27,14 +24,14 @@ _comp_options+=(globdots) # With hidden files
 # Doesn't work well with interactive mode
 # Use vim keys in tab complete menu:
 bindkey -M menuselect '^h' vi-backward-char
+bindkey -M menuselect '^j' vi-down-line-or-history
 bindkey -M menuselect '^k' vi-up-line-or-history
 bindkey -M menuselect '^l' vi-forward-char
-bindkey -M menuselect '^j' vi-down-line-or-history
 
 bindkey -M menuselect '^[[Z' vi-up-line-or-history
 bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 
 bindkey -M menuselect '^xg' clear-screen
@@ -102,7 +99,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 
 zstyle ':completion:*' keep-prefix true
 
-zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+#zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 ## For kubernetes
 # source $DOTFILES/zsh/plugins/kubectl-completion/_kubectl
